@@ -1,5 +1,39 @@
 import { StyleSheet } from 'react-native';
 
+export const COLORS = {
+  // Primary colors - Zelena paleta za NK Zelengaj
+  primary: '#2E8B57',        // SeaGreen - glavna boja kluba
+  primaryLight: '#3CB371',   // MediumSeaGreen - svjetlija varijanta  
+  primaryDark: '#228B22',    // ForestGreen - tamnija varijanta
+  secondary: '#32935D',      // Custom green - sekundarna
+  
+  // Background colors
+  background: '#f8f9fa',     // Vrlo svijetlo siva
+  white: '#ffffff',          // Bijela
+  cardBackground: '#f5f5f5', // Kartice pozadina
+  
+  // Text colors
+  textPrimary: '#212529',    // Glavni tekst (tamno)
+  textSecondary: '#6c757d',  // Sekundarni tekst (srednje)
+  textLight: '#adb5bd',      // Svijetli tekst
+  
+  // Status colors  
+  success: '#28a745',        // Uspjeh (zelena)
+  error: '#dc3545',          // Greška (crvena)
+  warning: '#ffc107',        // Upozorenje (žuta)
+  info: '#17a2b8',          // Informacija (plava)
+  
+  // UI colors
+  border: '#dee2e6',         // Borderovi
+  shadow: '#000000',         // Sjene
+  disabled: '#e9ecef',       // Onemogućeno stanje
+  
+  // Zelengaj specifične boje
+  zelengajGreen: '#2E8B57',  // Osnovna zelena kluba
+  zelengajLight: '#e8f5e8',  // Vrlo svijetla zelena
+  zelengajDark: '#1e5f3f',   // Tamna zelena
+};
+
 export const styles = StyleSheet.create({
   // Main container styles
   container: {

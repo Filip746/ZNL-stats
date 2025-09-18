@@ -19,6 +19,7 @@ const tabs: TabConfig[] = [
   { key: "relegation", label: "Ostanak", icon: "⚠️" },
   { key: "overall", label: "Ukupno", icon: "📈" },
   { key: "points", label: "Bodovi", icon: "📊" },
+  { key: "fixtures", label: "Raspored", icon: "📅" }, // NOVO
   { key: "conditional", label: "Matrix", icon: "🔢" },
 ];
 

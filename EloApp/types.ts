@@ -95,4 +95,35 @@ export interface ConditionalRow {
 }
 
 // Union tip za načine prikaza
-export type ViewMode = 'phase1' | 'champions' | 'relegation' | 'overall' | 'points' | 'conditional';
+export type ViewMode = 'phase1' | 'champions' | 'relegation' | 'overall' | 'points' | 'fixtures' | 'conditional';
+
+export interface Fixture {
+  home_team: string;
+  away_team: string;
+  match_id: string;
+}
+
+export interface Round {
+  round_number: number;
+  fixtures: Fixture[];
+}
+
+export interface FixturesResponse {
+  total_rounds: number;
+  total_fixtures: number;
+  rounds: Round[];
+  metadata: {
+    generated_at: string;
+    phase: string;
+    matches_per_round: number;
+  };
+}
+
+export type FilterMode = 'round' | 'team';
+
+export interface TeamFixture {
+  fixture: Fixture;
+  round: number;
+  isHome: boolean;
+  opponent: string;
+}

@@ -2,9 +2,10 @@ import { Alert } from 'react-native';
 import { 
   SimulationData, 
   PointsDistributionData, 
-  PositionsConditionalData 
+  PositionsConditionalData, 
+  FixturesResponse
 } from './types';
-import { API_ENDPOINTS } from './constants';
+import { API_BASE_URL, API_ENDPOINTS } from './constants';
 
 // Osnovne API funkcije
 export const fetchSimulationData = async (): Promise<SimulationData> => {
@@ -96,4 +97,12 @@ export const fetchConditionalDataWithHandling = async (teamName: string) => {
     const errorMessage = error instanceof Error ? error.message : 'Greška pri dohvaćanju uvjetnih vjerojatnosti';
     return { data: null, error: errorMessage };
   }
+};
+
+export const getFixtures = async (): Promise<FixturesResponse> => {
+  const response = await fetch(`${API_BASE_URL}/fixtures`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch fixtures');
+  }
+  return response.json();
 };

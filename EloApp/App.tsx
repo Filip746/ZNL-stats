@@ -19,6 +19,7 @@ import { ConditionalMatrix } from "./components/ConditionalMatrix";
 import { useSimulation } from "./hooks/useSimulation";
 import { usePointsDistribution } from "./hooks/usePointsDistribution";
 import { useConditionalData } from "./hooks/useConditionalData";
+import FixturesTable from "./components/FixturesTable";
 
 export default function App() {
   // View state
@@ -137,6 +138,9 @@ export default function App() {
             onTeamSelect={setPointsSelectedTeam}
           />
         );
+
+      case "fixtures":
+        return <FixturesTable />;
 
       case "conditional":
         return (
