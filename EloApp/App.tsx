@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, ScrollView, ActivityIndicator, Text, Alert } from "react-native";
 import { ViewMode } from "./types";
-import { DEFAULT_VIEW, DEFAULT_TEAM } from "./constants";
+import { DEFAULT_VIEW } from "./constants";
 import { styles } from "./styles";
 
 // Components

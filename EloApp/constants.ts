@@ -1,7 +1,7 @@
 import { ViewMode } from "./types";
 
 // API konfiguracija
-export const API_BASE_URL = 'http://10.212.82.110:5000/api';
+export const API_BASE_URL = 'http://localhost:5000/api';
 
 export const API_ENDPOINTS = {
   SIMULATION: `${API_BASE_URL}/simulation-text`,
