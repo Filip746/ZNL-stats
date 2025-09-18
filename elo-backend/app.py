@@ -435,6 +435,43 @@ def get_teams():
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+@app.route('/api/fixtures', methods=['GET'])
+def get_fixtures():
+    """Vraća fixtures grupiranu po kolima"""
+    try:
+        from runELO import fixtures
+        
+        # Grupiraj fixtures po kolima (6 utakmica po kolu)
+        rounds = []
+        for i in range(0, len(fixtures), 6):
+            round_fixtures = fixtures[i:i+6]
+            rounds.append({
+                'round_number': i//6 + 1,
+                'fixtures': [
+                    {
+                        'home_team': home,
+                        'away_team': away,
+                        'match_id': f"R{i//6 + 1}_M{idx+1}"
+                    }
+                    for idx, (home, away) in enumerate(round_fixtures)
+                ]
+            })
+        
+        return jsonify({
+            'total_rounds': len(rounds),
+            'total_fixtures': len(fixtures),
+            'rounds': rounds,
+            'metadata': {
+                'generated_at': pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
+                'phase': 'Prva faza lige',
+                'matches_per_round': 6
+            }
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
