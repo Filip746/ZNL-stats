@@ -6,8 +6,12 @@ import json
 import requests
 from typing import Dict, Any
 
+
+
 # Set modern font globally
 plt.rcParams['font.family'] = 'DejaVu Sans'
+
+
 
 def load_simulation_data(source: str) -> Dict[str, Any]:
     """
@@ -43,6 +47,8 @@ def load_simulation_data(source: str) -> Dict[str, Any]:
         print(f"Invalid JSON format: {e}")
         raise
 
+
+
 def extract_team_data(raw_data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     """
     Extract team data from the overall_statistics structure
@@ -67,6 +73,177 @@ def extract_team_data(raw_data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
             }
     
     return teams_data
+
+
+
+def get_green_gradient_colors(values, reverse=False):
+    """
+    Generate green gradient colors where highest value gets darkest green
+    
+    Args:
+        values: List of numeric values
+        reverse: If True, lowest value gets darkest color
+    
+    Returns:
+        List of colors
+    """
+    # Normalize values from 0 to 1
+    min_val = min(values)
+    max_val = max(values)
+    
+    if max_val == min_val:
+        # All values are the same, use medium green
+        return ['#28a745'] * len(values)
+    
+    normalized = [(v - min_val) / (max_val - min_val) for v in values]
+    
+    if reverse:
+        normalized = [1 - n for n in normalized]
+    
+    # Create colors - higher normalized value = darker green
+    # Range from light green (0.2) to dark green (0.9)
+    colors = []
+    for norm_val in normalized:
+        # Map 0-1 to 0.2-0.9 for better visibility
+        intensity = 0.2 + (norm_val * 0.7)
+        colors.append(plt.cm.Greens(intensity))
+    
+    return colors
+
+
+
+def create_champions_league_chart(raw_data: Dict[str, Any]):
+    """
+    Create Champions League projected points chart (Top 6 teams after 27 rounds)
+    
+    Args:
+        raw_data: Raw JSON data from API/file
+    """
+    if 'champions_league' not in raw_data:
+        print("Champions league data not found in API response")
+        return
+    
+    # Extract champions league team data
+    champions_data = []
+    for team_info in raw_data['champions_league']['teams']:
+        champions_data.append({
+            'Team': team_info['team'],
+            'Projected_Points': team_info['projected_points'],
+            'Starting_Points': team_info['starting_points_phase2'],
+            'Position': team_info['position']
+        })
+    
+    # Convert to DataFrame and sort by projected points
+    df = pd.DataFrame(champions_data)
+    df = df.sort_values(by="Projected_Points", ascending=False)
+    
+    # Calculate additional points (difference between projected and starting)
+    df['Additional_Points'] = df['Projected_Points'] - df['Starting_Points']
+    
+    # Create green gradient colors for additional points only
+    colors_additional = get_green_gradient_colors(df['Additional_Points'].tolist())
+    
+    # Create the chart with stacked bars
+    fig, ax = plt.subplots(figsize=(12, 8))
+    
+    # First bar: Starting points (gray)
+    bars_start = ax.barh(df["Team"], df["Starting_Points"], color='#888888', 
+                        edgecolor='darkgray', linewidth=1.5, alpha=0.7, label='Bodovi nakon 22.kola')
+    
+    # Second bar: Additional points (green gradient) - stacked on top
+    bars_additional = ax.barh(df["Team"], df["Additional_Points"], left=df["Starting_Points"],
+                             color=colors_additional, edgecolor='darkgreen', linewidth=1.5, 
+                             alpha=0.8, label='Bodovi u ligi za prvaka')
+    
+    # Add projected points labels at the end
+    for i, (pts, start_pts, add_pts) in enumerate(zip(df["Projected_Points"], df["Starting_Points"], df["Additional_Points"])):
+        ax.text(pts + 0.5, i, f'{pts:.1f}', ha='left', va='center', 
+                fontsize=13, weight='bold', color='#1e5631')
+        # Add breakdown info
+        ax.text(start_pts/2, i, f'{start_pts:.1f}', ha='center', va='center', 
+                fontsize=10, weight='bold', color='white')
+        if add_pts > 1:  # Only show if significant
+            ax.text(start_pts + add_pts/2, i, f'+{add_pts:.1f}', ha='center', va='center', 
+                    fontsize=10, weight='bold', color='white')
+    
+    ax.set_title('Liga za prvaka - Projekcija bodova nakon 27. kola', fontsize=20, weight='bold', pad=20)
+    ax.set_xlabel('Projekcija bodova', fontsize=16, weight='bold', labelpad=12)
+    ax.set_ylabel('Klub (TOP 6)', fontsize=16, weight='bold', labelpad=12)
+    ax.set_xlim(0, max(df['Projected_Points']) * 1.15)
+    ax.grid(True, alpha=0.3, axis='x')
+    ax.set_facecolor('#f8fff8')
+    ax.legend(loc='lower right')
+    
+    plt.tight_layout()
+    plt.show()
+
+
+def create_relegation_league_chart(raw_data: Dict[str, Any]):
+    """
+    Create Relegation League projected points chart (Bottom 6 teams after 27 rounds)
+    
+    Args:
+        raw_data: Raw JSON data from API/file
+    """
+    if 'relegation_league' not in raw_data:
+        print("Relegation league data not found in API response")
+        return
+    
+    # Extract relegation league team data
+    relegation_data = []
+    for team_info in raw_data['relegation_league']['teams']:
+        relegation_data.append({
+            'Team': team_info['team'],
+            'Projected_Points': team_info['projected_points'],
+            'Starting_Points': team_info['starting_points_phase2'],
+            'Position': team_info['position']
+        })
+    
+    # Convert to DataFrame and sort by projected points
+    df = pd.DataFrame(relegation_data)
+    df = df.sort_values(by="Projected_Points", ascending=False)
+    
+    # Calculate additional points (difference between projected and starting)
+    df['Additional_Points'] = df['Projected_Points'] - df['Starting_Points']
+    
+    # Create green gradient colors for additional points only
+    colors_additional = get_green_gradient_colors(df['Additional_Points'].tolist())
+    
+    # Create the chart with stacked bars
+    fig, ax = plt.subplots(figsize=(12, 8))
+    
+    # First bar: Starting points (gray)
+    bars_start = ax.barh(df["Team"], df["Starting_Points"], color='#888888', 
+                        edgecolor='darkgray', linewidth=1.5, alpha=0.7, label='Bodovi nakon 22.kola')
+    
+    # Second bar: Additional points (green gradient) - stacked on top
+    bars_additional = ax.barh(df["Team"], df["Additional_Points"], left=df["Starting_Points"],
+                             color=colors_additional, edgecolor='darkgreen', linewidth=1.5, 
+                             alpha=0.8, label='Bodovi u ligi za ostanak')
+    
+    # Add projected points labels at the end
+    for i, (pts, start_pts, add_pts) in enumerate(zip(df["Projected_Points"], df["Starting_Points"], df["Additional_Points"])):
+        ax.text(pts + 0.3, i, f'{pts:.1f}', ha='left', va='center', 
+                fontsize=13, weight='bold', color='#1e5631')
+        # Add breakdown info
+        ax.text(start_pts/2, i, f'{start_pts:.1f}', ha='center', va='center', 
+                fontsize=10, weight='bold', color='white')
+        if add_pts > 1:  # Only show if significant
+            ax.text(start_pts + add_pts/2, i, f'+{add_pts:.1f}', ha='center', va='center', 
+                    fontsize=10, weight='bold', color='white')
+    
+    ax.set_title('Liga za ostanak - Projekcija bodova nakon 27. kola', fontsize=20, weight='bold', pad=20)
+    ax.set_xlabel('Projekcija bodova', fontsize=16, weight='bold', labelpad=12)
+    ax.set_ylabel('Klub (BOTTOM 6)', fontsize=16, weight='bold', labelpad=12)
+    ax.set_xlim(0, max(df['Projected_Points']) * 1.15)
+    ax.grid(True, alpha=0.3, axis='x')
+    ax.set_facecolor('#f8fff8')
+    ax.legend(loc='lower right')
+    
+    plt.tight_layout()
+    plt.show()
+
+
 
 def create_visualizations(simulation_data: Dict[str, Dict[str, Any]]):
     """
@@ -115,18 +292,25 @@ def create_visualizations(simulation_data: Dict[str, Dict[str, Any]]):
     # PLOT 2: Champion Probabilities Bar Chart
     fig, ax = plt.subplots(figsize=(12, 8))
     champion_probs = [simulation_data[team]["champion_probability"] for team in teams]
-    colors = plt.cm.Greens(np.linspace(0.3, 0.9, len(teams)))
     
-    bars = ax.barh(teams, champion_probs, color=colors, edgecolor='white', linewidth=1.5)
+    # Sort teams by champion probability for proper gradient
+    sorted_data = sorted(zip(teams, champion_probs), key=lambda x: x[1], reverse=True)
+    sorted_teams = [x[0] for x in sorted_data]
+    sorted_probs = [x[1] for x in sorted_data]
     
-    for i, (bar, prob) in enumerate(zip(bars, champion_probs)):
-        ax.text(bar.get_width() + max(champion_probs)*0.01, bar.get_y() + bar.get_height()/2, 
-                f'{prob:.1f}%', ha='left', va='center', fontsize=12, weight='bold')
+    # Create green gradient colors - highest probability = darkest green
+    colors = get_green_gradient_colors(sorted_probs)
+    
+    bars = ax.barh(sorted_teams, sorted_probs, color=colors, edgecolor='darkgreen', linewidth=1.5)
+    
+    for i, (bar, prob) in enumerate(zip(bars, sorted_probs)):
+        ax.text(bar.get_width() + max(sorted_probs)*0.01, bar.get_y() + bar.get_height()/2, 
+                f'{prob:.1f}%', ha='left', va='center', fontsize=12, weight='bold', color='#1e5631')
     
     ax.set_title('Vjerojatnost osvajanja prvog mjesta', fontsize=22, weight='bold', pad=30)
     ax.set_xlabel('Vjerojatnost (%)', fontsize=16, weight='bold', labelpad=12)
     ax.set_ylabel('Klub', fontsize=16, weight='bold', labelpad=12)
-    ax.set_xlim(0, max(champion_probs) * 1.15)
+    ax.set_xlim(0, max(sorted_probs) * 1.15)
     ax.grid(True, alpha=0.3, axis='x')
     
     plt.tight_layout()
@@ -135,13 +319,20 @@ def create_visualizations(simulation_data: Dict[str, Dict[str, Any]]):
     # PLOT 3: Top 6 Probabilities
     fig, ax = plt.subplots(figsize=(12, 8))
     top6_probs = [simulation_data[team]["top6_probability"] for team in teams]
-    colors = plt.cm.Blues(np.linspace(0.3, 0.9, len(teams)))
     
-    bars = ax.barh(teams, top6_probs, color=colors, edgecolor='white', linewidth=1.5)
+    # Sort teams by top6 probability for proper gradient
+    sorted_data = sorted(zip(teams, top6_probs), key=lambda x: x[1], reverse=True)
+    sorted_teams = [x[0] for x in sorted_data]
+    sorted_probs = [x[1] for x in sorted_data]
     
-    for i, (bar, prob) in enumerate(zip(bars, top6_probs)):
+    # Create green gradient colors - highest probability = darkest green
+    colors = get_green_gradient_colors(sorted_probs)
+    
+    bars = ax.barh(sorted_teams, sorted_probs, color=colors, edgecolor='darkgreen', linewidth=1.5)
+    
+    for i, (bar, prob) in enumerate(zip(bars, sorted_probs)):
         ax.text(bar.get_width() + 1, bar.get_y() + bar.get_height()/2, 
-                f'{prob:.1f}%', ha='left', va='center', fontsize=12, weight='bold')
+                f'{prob:.1f}%', ha='left', va='center', fontsize=12, weight='bold', color='#1e5631')
     
     ax.set_title('Vjerojatnost ulaska u TOP 6', fontsize=22, weight='bold', pad=30)
     ax.set_xlabel('Vjerojatnost (%)', fontsize=16, weight='bold', labelpad=12)
@@ -155,22 +346,31 @@ def create_visualizations(simulation_data: Dict[str, Dict[str, Any]]):
     # PLOT 4: Projected Points
     fig, ax = plt.subplots(figsize=(12, 8))
     projected_pts = [simulation_data[team]["projected_points"] for team in teams]
-    colors = plt.cm.Oranges(np.linspace(0.4, 0.9, len(teams)))
     
-    bars = ax.barh(teams, projected_pts, color=colors, edgecolor='white', linewidth=1.5)
+    # Sort teams by projected points for proper gradient
+    sorted_data = sorted(zip(teams, projected_pts), key=lambda x: x[1], reverse=True)
+    sorted_teams = [x[0] for x in sorted_data]
+    sorted_pts = [x[1] for x in sorted_data]
     
-    for i, (bar, pts) in enumerate(zip(bars, projected_pts)):
-        ax.text(bar.get_width() + max(projected_pts)*0.01, bar.get_y() + bar.get_height()/2, 
-                f'{pts:.1f}', ha='left', va='center', fontsize=12, weight='bold')
+    # Create green gradient colors - highest points = darkest green
+    colors = get_green_gradient_colors(sorted_pts)
+    
+    bars = ax.barh(sorted_teams, sorted_pts, color=colors, edgecolor='darkgreen', linewidth=1.5)
+    
+    for i, (bar, pts) in enumerate(zip(bars, sorted_pts)):
+        ax.text(bar.get_width() + max(sorted_pts)*0.01, bar.get_y() + bar.get_height()/2, 
+                f'{pts:.1f}', ha='left', va='center', fontsize=12, weight='bold', color='#1e5631')
     
     ax.set_title('Projekcija bodova nakon 22.kola', fontsize=22, weight='bold', pad=30)
     ax.set_xlabel('Projekcija bodova', fontsize=16, weight='bold', labelpad=12)
     ax.set_ylabel('Klub', fontsize=16, weight='bold', labelpad=12)
-    ax.set_xlim(0, max(projected_pts) * 1.1)
+    ax.set_xlim(0, max(sorted_pts) * 1.1)
     ax.grid(True, alpha=0.3, axis='x')
     
     plt.tight_layout()
     plt.show()
+
+
 
 # MAIN EXECUTION
 if __name__ == "__main__":
@@ -192,8 +392,19 @@ if __name__ == "__main__":
         for team in simulation_data.keys():
             print(f"  - {team}")
         
-        # Create all visualizations
+        # Create original visualizations
+        print("\n=== ORIGINAL CHARTS (22 rounds) ===")
         create_visualizations(simulation_data)
+        
+        # Create new playoff visualizations
+        print("\n=== PLAYOFF CHARTS (27 rounds) ===")
+        print("Creating Champions League chart...")
+        create_champions_league_chart(raw_data)
+        
+        print("Creating Relegation League chart...")
+        create_relegation_league_chart(raw_data)
+        
+        print("All charts created successfully!")
         
     except Exception as e:
         print(f"Error: {e}")
