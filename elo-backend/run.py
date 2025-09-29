@@ -111,7 +111,7 @@ if __name__ == '__main__':
     for team, score in sorted(elo_rating.items(), key=lambda x: -x[1]):
         print(f'{team:30}: {score:.0f}')
     # Save to file for future update use
-    pd.Series(elo_rating).to_csv('current_elo.csv', header=['rating'])
+    pd.Series(elo_rating).to_csv('current_elo.csv', header=['ELO'])
     # 2. Update with new round
     # round_df should have columns: homeTeam,aw...
     # rating_dict = pd.read_csv('current_elo.csv', index_col=0, squeeze=True).to_dict()
