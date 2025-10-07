@@ -136,40 +136,38 @@ def print_phase_table(title, points_dict, pos_prob):
 # Definicija podataka i simulacije
 
 initial_points = {
-    "Zadrugar": 14,
+    "Zadrugar": 15,
     "Mladost SL": 14,
-    "Mladost VT": 11,
+    "Mladost VT": 14,
+    "Zelengaj": 12,
+    "Beretinec": 12,
     "Semovec": 10,
-    "Zelengaj": 9,
-    "Beretinec": 9,
+    "Drava": 9,
+    "Nova Ves": 8,
     "Plitvica": 7,
-    "Nova Ves": 7,
-    "Drava": 6,
-    "Sloboda": 6,
-    "Dubravka": 4,
+    "Sloboda": 7,
+    "Dubravka": 5,
     "Obres": 3
 }
 
 teams = {
-    "Beretinec": 1432.9346493182954,
-    "Drava": 1438.0345367704037,
-    "Mladost SL": 1589.2077608943753,
-    "Mladost VT": 1474.252939534214,
-    "Nova Ves": 1498.9812817490563,
-    "Obres": 1441.9059537639862,
-    "Plitvica": 1593.2291554036415,
-    "Sloboda": 1378.896574512818,
-    "Zadrugar": 1610.1555869287863,
-    "Zelengaj": 1545.867897940437,
-    "Dubravka": 1376.4469886007325,
-    "Semovec": 1418.0654668059462
+    "Beretinec": 1443.942363519115,
+    "Drava": 1452.4573322403508,
+    "Mladost SL": 1577.3596921868202,
+    "Mladost VT": 1486.101008241769,
+    "Nova Ves": 1494.3869417527599,
+    "Obres": 1427.483158294039,
+    "Plitvica": 1570.9496202423659,
+    "Sloboda": 1383.6867260377423,
+    "Zadrugar": 1605.365435403862,
+    "Zelengaj": 1568.1474331017127,
+    "Dubravka": 1381.041328597029,
+    "Semovec": 1407.0577526051268
 }
 
 
 
 fixtures = [
-("Plitvica", "Zelengaj"), ("Nova Ves", "Dubravka"), ("Sloboda", "Zadrugar"), ("Mladost VT", "Mladost SL"), ("Semovec", "Beretinec"), ("Obres", "Drava"),
-
 ("Nova Ves", "Sloboda"), ("Dubravka", "Zelengaj"), ("Drava", "Plitvica"), ("Beretinec", "Obres"), ("Mladost SL", "Semovec"), ("Zadrugar", "Mladost VT"),
 ("Plitvica", "Beretinec"), ("Zelengaj", "Drava"), ("Sloboda", "Dubravka"), ("Mladost VT", "Nova Ves"), ("Semovec", "Zadrugar"), ("Obres", "Mladost SL"),
 ("Sloboda", "Mladost VT"), ("Dubravka", "Drava"), ("Beretinec", "Zelengaj"), ("Mladost SL", "Plitvica"), ("Zadrugar", "Obres"), ("Nova Ves", "Semovec"),

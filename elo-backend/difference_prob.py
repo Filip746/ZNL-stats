@@ -7,8 +7,9 @@ teams = [
     "Zadrugar", "Mladost SL", "Nova Ves", "Plitvica", "Mladost VT", "Zelengaj",
     "Semovec", "Beretinec", "Drava", "Dubravka", "Sloboda", "Obres"
 ]
-old_probs = [98.6, 97.5, 76.4, 74.9, 67.0, 64.3, 58.4, 34.2, 10.4, 6.9, 6.4, 4.9]
-new_probs = [99.3, 98.3, 71.9, 87.6, 71.9, 71.0, 45.3, 26.0, 17.6, 3.4, 5.3, 3.4]
+
+old_probs = [99.3, 98.3, 71.9, 87.6, 71.9, 71.0, 45.3, 26.0, 17.6, 3.4, 5.3, 3.4]
+new_probs = [99.4, 96.4, 57.9, 64.6, 83.4, 89.4, 22.2, 43.5, 35.0, 3.6, 3.9, 0.6]
 
 # Izračun promjene
 changes = [new - old for new, old in zip(new_probs, old_probs)]
@@ -31,20 +32,19 @@ ax.axvline(0, color='gray', linestyle='--', lw=1.8)
 
 # Dodaj value label iznad svakog bara s laganim offsetom
 for i, (bar, change) in enumerate(zip(bars, df["Promjena"])):
-    if i == len(bars) - 1 and change < 0:  # Prvi bar na dnu (najveći negativan)
-        # Prikaži etiketu malo iznad bara
-        ax.text(bar.get_width() + 0.5, bar.get_y() + bar.get_height()*1.6,  # pomaknuto iznad
-                f"{change:+.2f} %", va='bottom', ha='left',
+    if change < 0:
+        xpos = bar.get_width() * 0.05  # malo desno unutar bara
+        ax.text(xpos, bar.get_y() + bar.get_height()/2,
+                f"{change:+.2f} %", va='center', ha='left',
                 fontsize=19, fontweight='bold', color='#222')
     else:
-        xpos = bar.get_width() + (1.1 if change > 0 else -1.2)
+        xpos = bar.get_width() + 0.5
         ax.text(xpos, bar.get_y() + bar.get_height()/2,
-                f"{change:+.2f} %", va='center',
-                ha='left' if change > 0 else 'right',
+                f"{change:+.2f} %", va='center', ha='left',
                 fontsize=19, fontweight='bold', color='#222')
 
 # Podesi stil osi i legendu
-ax.set_title("Najveće promjene vjerojatnosti za TOP 6 (kolo 6)", fontsize=26, weight='bold', pad=15)
+ax.set_title("Najveće promjene vjerojatnosti za TOP 6 (kolo 7)", fontsize=26, weight='bold', pad=15)
 ax.set_xlabel("Promjena vjerojatnosti (%)", fontsize=18, labelpad=10)
 ax.set_yticklabels(df['Klub'], fontsize=17, fontweight='bold')
 ax.tick_params(axis='x', labelsize=14)
