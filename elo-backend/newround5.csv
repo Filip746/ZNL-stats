@@ -1,7 +1,7 @@
-homeTeam;awayTeam;homeScore;awayScore;dateOfMatch
-Obres;Plitvica;0;4;20.9.2025
-Zadrugar;Dubravka;3;0;21.9.2025
-Nova Ves;Mladost SL;1;4;21.9.2025
-Sloboda;Beretinec;1;2;21.9.2025
-Mladost VT;Drava;4;0;21.9.2025
-Semovec;Zelengaj;2;1;21.9.2025
+homeTeam;awayTeam;homeScore;awayScore;dateOfMatch;attendance
+Obres;Plitvica;0;4;20.9.2025;60
+Zadrugar;Dubravka;3;0;21.9.2025;100
+Nova Ves;Mladost SL;1;4;21.9.2025;200
+Sloboda;Beretinec;1;2;21.9.2025;120
+Mladost VT;Drava;4;0;21.9.2025;100
+Semovec;Zelengaj;2;1;21.9.2025;100

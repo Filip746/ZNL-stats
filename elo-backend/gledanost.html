@@ -30,10 +30,16 @@
         label {
             font-weight: bold;
         }
-        select {
-            padding: 5px;
+        select, button {
+            padding: 8px;
             font-size: 1em;
-            margin-bottom: 10px;
+            margin: 5px 0;
+        }
+        #loading {
+            text-align: center;
+            font-style: italic;
+            color: #555;
+            margin: 20px 0;
         }
     </style>
 </head>
@@ -55,6 +61,10 @@
         <option value="NK Obreš">NK Obreš</option>
     </select>
 
+    <button onclick="sortTable()">Sortiraj po broju gledatelja</button>
+
+    <div id="loading">Učitavanje podataka...</div>
+
     <table id="matchesTable">
         <caption>Broj gledatelja po utakmici</caption>
         <thead>
@@ -65,73 +75,109 @@
             </tr>
         </thead>
         <tbody>
-            <tr><td>23.08.2025 17:30</td><td>ŠNK Mladost Varaždinske Toplice - ŠNK Mladost Šemovec</td><td>70</td></tr>
-            <tr><td>24.08.2025 17:30</td><td>NK Beretinec - NK Dubravka-Zagorac</td><td>150</td></tr>
-            <tr><td>24.08.2025 17:30</td><td>ŠNK Mladost Sigetec Ludbreški - ŠNK Drava</td><td>150</td></tr>
-            <tr><td>24.08.2025 17:30</td><td>ŠNK Zadrugar - NK Zelengaj</td><td>100</td></tr>
-            <tr><td>24.08.2025 17:30</td><td>NK Nova Ves - NK Plitvica (S)</td><td>120</td></tr>
-            <tr><td>24.08.2025 17:30</td><td>NK Sloboda Tužno - NK Obreš</td><td>100</td></tr>
-            <tr><td>30.08.2025 17:30</td><td>NK Plitvica (S) - NK Sloboda Tužno</td><td>90</td></tr>
-            <tr><td>30.08.2025 17:30</td><td>NK Zelengaj - NK Nova Ves</td><td>120</td></tr>
-            <tr><td>30.08.2025 17:30</td><td>NK Beretinec - ŠNK Mladost Sigetec Ludbreški</td><td>120</td></tr>
-            <tr><td>31.08.2025 17:30</td><td>NK Dubravka-Zagorac - ŠNK Mladost Šemovec</td><td>120</td></tr>
-            <tr><td>31.08.2025 17:30</td><td>NK Obreš - ŠNK Mladost Varaždinske Toplice</td><td>120</td></tr>
-            <tr><td>31.08.2025 17:30</td><td>ŠNK Drava - ŠNK Zadrugar</td><td>250</td></tr>
-            <tr><td>05.09.2025 17:30</td><td>ŠNK Zadrugar - NK Beretinec</td><td>80</td></tr>
-            <tr><td>06.09.2025 17:00</td><td>ŠNK Mladost Šemovec - NK Obreš</td><td>100</td></tr>
-            <tr><td>07.09.2025 17:00</td><td>ŠNK Mladost Sigetec Ludbreški - NK Dubravka-Zagorac</td><td>150</td></tr>
-            <tr><td>07.09.2025 17:00</td><td>NK Nova Ves - ŠNK Drava</td><td>100</td></tr>
-            <tr><td>07.09.2025 17:00</td><td>NK Sloboda Tužno - NK Zelengaj</td><td>100</td></tr>
-            <tr><td>07.09.2025 17:00</td><td>ŠNK Mladost Varaždinske Toplice - NK Plitvica (S)</td><td>150</td></tr>
-            <tr><td>13.09.2025 17:00</td><td>NK Plitvica (S) - ŠNK Mladost Šemovec</td><td>80</td></tr>
-            <tr><td>13.09.2025 17:00</td><td>NK Zelengaj - ŠNK Mladost Varaždinske Toplice</td><td>80</td></tr>
-            <tr><td>13.09.2025 17:00</td><td>ŠNK Mladost Sigetec Ludbreški - ŠNK Zadrugar</td><td>150</td></tr>
-            <tr><td>14.09.2025 17:00</td><td>NK Dubravka-Zagorac - NK Obreš</td><td>90</td></tr>
-            <tr><td>14.09.2025 17:00</td><td>ŠNK Drava - NK Sloboda Tužno</td><td>90</td></tr>
-            <tr><td>14.09.2025 17:00</td><td>NK Beretinec - NK Nova Ves</td><td>140</td></tr>
-            <tr><td>20.09.2025 16:30</td><td>NK Obreš - NK Plitvica (S)</td><td>60</td></tr>
-            <tr><td>21.09.2025 16:30</td><td>ŠNK Zadrugar - NK Dubravka-Zagorac</td><td>100</td></tr>
-            <tr><td>21.09.2025 16:30</td><td>NK Nova Ves - ŠNK Mladost Sigetec Ludbreški</td><td>200</td></tr>
-            <tr><td>21.09.2025 16:30</td><td>NK Sloboda Tužno - NK Beretinec</td><td>120</td></tr>
-            <tr><td>21.09.2025 16:30</td><td>ŠNK Mladost Varaždinske Toplice - ŠNK Drava</td><td>100</td></tr>
-            <tr><td>21.09.2025 16:30</td><td>ŠNK Mladost Šemovec - NK Zelengaj</td><td>100</td></tr>
-            <tr><td>27.09.2025 16:30</td><td>NK Zelengaj - NK Obreš</td><td>100</td></tr>
-            <tr><td>27.09.2025 16:30</td><td>ŠNK Zadrugar - NK Nova Ves</td><td>90</td></tr>
-            <tr><td>28.09.2025 16:30</td><td>NK Dubravka-Zagorac - NK Plitvica (S)</td><td>100</td></tr>
-            <tr><td>28.09.2025 16:30</td><td>ŠNK Drava - ŠNK Mladost Šemovec</td><td>90</td></tr>
-            <tr><td>28.09.2025 16:30</td><td>NK Beretinec - ŠNK Mladost Varaždinske Toplice</td><td>200</td></tr>
-            <tr><td>28.09.2025 16:30</td><td>ŠNK Mladost Sigetec Ludbreški - NK Sloboda Tužno</td><td>150</td></tr>
-            <tr><td>04.10.2025 16:00</td><td>NK Plitvica (S) - NK Zelengaj</td><td>125</td></tr>
-            <tr><td>05.10.2025 16:00</td><td>NK Nova Ves - NK Dubravka-Zagorac</td><td>75</td></tr>
-            <tr><td>05.10.2025 16:00</td><td>NK Sloboda Tužno - ŠNK Zadrugar</td><td>40</td></tr>
-            <tr><td>05.10.2025 16:00</td><td>ŠNK Mladost Varaždinske Toplice - ŠNK Mladost Sigetec Ludbreški</td><td>100</td></tr>
-            <tr><td>05.10.2025 16:00</td><td>ŠNK Mladost Šemovec - NK Beretinec</td><td>100</td></tr>
-            <tr><td>05.10.2025 16:00</td><td>NK Obreš - ŠNK Drava</td><td>80</td></tr>
+            <!-- Utakmice će biti dodane ovdje putem JavaScripta -->
         </tbody>
     </table>
 
     <div id="averageViewers" style="margin-top:20px; font-family: Arial, sans-serif; font-weight: bold;"></div>
 
     <script>
-        function filterTable() {
-            const filter = document.getElementById('clubFilter').value.toLowerCase();
-            const table = document.getElementById('matchesTable');
-            const trs = table.tBodies[0].rows;
+        // Popis CSV datoteka koje treba učitati
+        const csvFiles = [
+            'newround1.csv',
+            'newround2.csv',
+            'newround3.csv',
+            'newround4.csv',
+            'newround5.csv',
+            'newround6.csv',
+            'newround7.csv',
+            'newround8.csv'
+        ];
 
-            // Prikaz/red s utakmicama
-            for (let i = 0; i < trs.length; i++) {
-                const matchText = trs[i].cells[1].textContent.toLowerCase();
-                if (filter === "" || matchText.includes(filter)) {
-                    trs[i].style.display = "";
-                } else {
-                    trs[i].style.display = "none";
+        // Mapiranje skraćenica iz CSV-a u puna imena klubova
+        const clubNameMap = {
+            'Mladost VT': 'ŠNK Mladost Varaždinske Toplice',
+            'Semovec': 'ŠNK Mladost Šemovec',
+            'Beretinec': 'NK Beretinec',
+            'Dubravka': 'NK Dubravka-Zagorac',
+            'Mladost SL': 'ŠNK Mladost Sigetec Ludbreški',
+            'Drava': 'ŠNK Drava',
+            'Zadrugar': 'ŠNK Zadrugar',
+            'Zelengaj': 'NK Zelengaj',
+            'Nova Ves': 'NK Nova Ves',
+            'Plitvica': 'NK Plitvica (S)',
+            'Sloboda': 'NK Sloboda Tužno',
+            'Obres': 'NK Obreš'
+        };
+
+        // Funkcija za parsiranje CSV retka
+        function parseCSVLine(line) {
+            return line.split(';').map(field => field.trim());
+        }
+
+        // Funkcija za pretvaranje kratkog imena kluba u puno
+        function getFullClubName(name) {
+            return clubNameMap[name] || name;
+        }
+
+        // Funkcija za učitavanje svih CSV datoteka
+        async function loadAllMatches() {
+            const tbody = document.querySelector('#matchesTable tbody');
+            tbody.innerHTML = ''; // Isprazni tablicu
+
+            for (const file of csvFiles) {
+                try {
+                    const response = await fetch(file);
+                    if (!response.ok) throw new Error(`Neuspješno učitavanje: ${file}`);
+                    const text = await response.text();
+                    const lines = text.trim().split('\n');
+
+                    // Preskoči zaglavlje
+                    for (let i = 1; i < lines.length; i++) {
+                        const [homeTeam, awayTeam, homeScore, awayScore, dateOfMatch, attendance] = parseCSVLine(lines[i]);
+                        const fullHome = getFullClubName(homeTeam);
+                        const fullAway = getFullClubName(awayTeam);
+
+                        const row = document.createElement('tr');
+
+                        // Formatiranje datuma: pretvori "23.8.2025" u "23.08.2025"
+                        const formattedDate = dateOfMatch.replace(/\b(\d)\.(\d)\./, '0$1.0$2.').replace(/\b(\d)\.(\d{2})\./, '0$1.$2.');
+
+                        row.innerHTML = `
+                            <td>${formattedDate} 16:00</td>
+                            <td>${fullHome} - ${fullAway}</td>
+                            <td>${attendance}</td>
+                        `;
+                        tbody.appendChild(row);
+                    }
+                } catch (error) {
+                    console.error(error);
                 }
             }
 
-            // Klupska imena iz selecta osim prve opcije
+            document.getElementById('loading').style.display = 'none';
+            filterTable(); // Ažuriraj prikaz nakon učitavanja
+        }
+
+        // Pozovi funkciju za učitavanje prilikom učitavanja stranice
+        window.onload = loadAllMatches;
+
+        // Filtriranje tablice po klubu
+        function filterTable() {
+            const filter = document.getElementById('clubFilter').value.toLowerCase();
+            const tbody = document.querySelector('#matchesTable tbody');
+            const trs = tbody.querySelectorAll('tr');
+
+            // Prikaz svih utakmica koje sadrže odabrani klub
+            trs.forEach(tr => {
+                const matchText = tr.cells[1].textContent.toLowerCase();
+                tr.style.display = filter === "" || matchText.includes(filter) ? "" : "none";
+            });
+
+            // Računanje prosjeka za sve klubske imena
             const clubs = Array.from(document.getElementById('clubFilter').options)
-                                .slice(1)
-                                .map(option => option.value);
+                .slice(1)
+                .map(option => option.value);
 
             const averages = {};
 
@@ -139,36 +185,30 @@
                 let countMatches = 0;
                 let sumViewers = 0;
 
-                for(let i = 0; i < trs.length; i++) {
-                    if (trs[i].style.display !== "none") {
-                        const matchText = trs[i].cells[1].textContent;
-                        const viewers = parseInt(trs[i].cells[2].textContent);
+                trs.forEach(tr => {
+                    if (tr.style.display !== "none") {
+                        const matchText = tr.cells[1].textContent;
+                        const viewers = parseInt(tr.cells[2].textContent);
                         if (matchText.includes(club)) {
                             countMatches++;
                             sumViewers += viewers;
                         }
                     }
-                }
+                });
 
                 averages[club] = countMatches > 0 ? (sumViewers / countMatches).toFixed(1) : '-';
             });
 
             const averageDiv = document.getElementById('averageViewers');
             if (filter && filter !== "") {
-                // Prikaz prosjeka za odabrani klub
                 const clubName = clubs.find(c => c.toLowerCase() === filter) || filter;
                 averageDiv.innerHTML = `Prosječan broj gledatelja za <strong>${clubName}</strong>: ${averages[clubName] || '-'}`;
             } else {
-                // Prikaz tablice s prosjecima za sve klubove
                 let html = `<table border="1" cellpadding="5" style="border-collapse: collapse; margin-top: 10px;">`;
                 html += `<thead><tr><th>Klub</th><th>Prosječan broj gledatelja</th></tr></thead><tbody>`;
-                // Pretvori averages u niz [klub, prosjek]
-                let averagesArray = clubs.map(club => [club, parseFloat(averages[club]) || 0]);
-                // Sortiraj od najvećeg do najmanjeg prosjeka
+                const averagesArray = clubs.map(club => [club, parseFloat(averages[club]) || 0]);
                 averagesArray.sort((a, b) => b[1] - a[1]);
-                // Ispiši sortirane podatke u HTML tablicu
                 averagesArray.forEach(([club, avg]) => {
-                    // Ako je prosjek 0 pretvori u '-' za preglednost
                     const displayAvg = avg === 0 ? '-' : avg.toFixed(1);
                     html += `<tr><td>${club}</td><td>${displayAvg}</td></tr>`;
                 });
@@ -177,48 +217,18 @@
             }
         }
 
-        // Pozovi funkciju inicijalno da se prikaže odmah
-        filterTable();
-    </script>
+        // Sortiranje tablice po broju gledatelja (silazno)
+        function sortTable() {
+            const tbody = document.querySelector('#matchesTable tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
 
-    <button onclick="sortTable()">Sortiraj od najvećeg do najmanjeg</button>
+            rows.sort((a, b) => {
+                const aVal = parseInt(a.cells[2].textContent) || 0;
+                const bVal = parseInt(b.cells[2].textContent) || 0;
+                return bVal - aVal;
+            });
 
-    <script>
-    // Funkcija za sortiranje tablice po prosjeku gledatelja
-    function sortTable() {
-        const table = document.getElementById("matchesTable");
-        let switching = true;
-        while (switching) {
-            switching = false;
-            const rows = table.rows;
-            for (let i = 1; i < rows.length - 1; i++) {
-                let x = parseFloat(rows[i].cells[2].innerText);
-                let y = parseFloat(rows[i + 1].cells[2].innerText);
-                if (isNaN(x)) x = 0; // Ako je '-', tretira kao 0
-                if (isNaN(y)) y = 0;
-                if (x < y) {
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                }
-            }
-        }
-    }
-    </script>
-
-    <script>
-        function filterTable() {
-            const filter = document.getElementById('clubFilter').value.toLowerCase();
-            const table = document.getElementById('matchesTable');
-            const trs = table.tBodies[0].rows;
-
-            for (let i = 0; i < trs.length; i++) {
-                const matchText = trs[i].cells[1].textContent.toLowerCase();
-                if (filter === "" || matchText.includes(filter)) {
-                    trs[i].style.display = "";
-                } else {
-                    trs[i].style.display = "none";
-                }
-            }
+            rows.forEach(row => tbody.appendChild(row));
         }
     </script>
 </body>
