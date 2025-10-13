@@ -136,39 +136,38 @@ def print_phase_table(title, points_dict, pos_prob):
 # Definicija podataka i simulacije
 
 initial_points = {
-    "Zadrugar": 15,
-    "Mladost SL": 14,
+    "Zadrugar": 18,
+    "Mladost SL": 17,
+    "Zelengaj": 15,
+    "Beretinec": 15,
     "Mladost VT": 14,
-    "Zelengaj": 12,
-    "Beretinec": 12,
+    "Drava": 12,
     "Semovec": 10,
-    "Drava": 9,
-    "Nova Ves": 8,
+    "Nova Ves": 9,
+    "Sloboda": 8,
     "Plitvica": 7,
-    "Sloboda": 7,
     "Dubravka": 5,
     "Obres": 3
 }
 
 teams = {
-    "Beretinec": 1443.942363519115,
-    "Drava": 1452.4573322403508,
-    "Mladost SL": 1577.3596921868202,
-    "Mladost VT": 1486.101008241769,
-    "Nova Ves": 1494.3869417527599,
-    "Obres": 1427.483158294039,
-    "Plitvica": 1570.9496202423659,
-    "Sloboda": 1383.6867260377423,
-    "Zadrugar": 1605.365435403862,
-    "Zelengaj": 1568.1474331017127,
-    "Dubravka": 1381.041328597029,
-    "Semovec": 1407.0577526051268
+    "Beretinec": 1454.0800437461817,
+    "Drava": 1464.4035519490012,
+    "Mladost SL": 1586.1425885352273,
+    "Mladost VT": 1476.5106076127747,
+    "Nova Ves": 1490.0654823681396,
+    "Obres": 1417.3454780669722,
+    "Plitvica": 1559.0034005337156,
+    "Sloboda": 1388.0081854223629,
+    "Zadrugar": 1614.9558360328563,
+    "Zelengaj": 1574.3940441395569,
+    "Dubravka": 1374.7947175591848,
+    "Semovec": 1398.2748562567197
 }
 
 
 
 fixtures = [
-("Nova Ves", "Sloboda"), ("Dubravka", "Zelengaj"), ("Drava", "Plitvica"), ("Beretinec", "Obres"), ("Mladost SL", "Semovec"), ("Zadrugar", "Mladost VT"),
 ("Plitvica", "Beretinec"), ("Zelengaj", "Drava"), ("Sloboda", "Dubravka"), ("Mladost VT", "Nova Ves"), ("Semovec", "Zadrugar"), ("Obres", "Mladost SL"),
 ("Sloboda", "Mladost VT"), ("Dubravka", "Drava"), ("Beretinec", "Zelengaj"), ("Mladost SL", "Plitvica"), ("Zadrugar", "Obres"), ("Nova Ves", "Semovec"),
 
