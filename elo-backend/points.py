@@ -140,6 +140,62 @@ def format_distribution_for_chart(distribution_data):
         'chart_data': chart_data
     }
 
+def calculate_next_3_rounds_distribution(team_name, num_simulations=10000):
+    """
+    Računa distribuciju mogućih bodova u sljedeća 3 kola za određeni tim
+    (koristi ELO logiku, ali ne simulira cijelo prvenstvo)
+    """
+    from runELO import simulate_match, teams, fixtures, k
+    
+    if team_name not in teams:
+        return None
+
+    team_elo = teams[team_name]
+    results = []
+    
+    # pronađi sljedeće 3 utakmice u fixturesima
+    upcoming_matches = []
+    for match in fixtures:
+        home, away = match
+        if team_name in (home, away):
+            upcoming_matches.append((home, away))
+        if len(upcoming_matches) == 3:
+            break
+
+    if not upcoming_matches:
+        return None
+
+    # simulacija
+    for _ in range(num_simulations):
+        total_points = 0
+        for home, away in upcoming_matches:
+            home_points, away_points, *_ = simulate_match(teams[home], teams[away], k=k)
+
+            if team_name == home:
+                outcome = home_points
+            else:
+                outcome = away_points
+
+            total_points += outcome
+        results.append(total_points)
+
+    # distribucija
+    counts = Counter(results)
+    total = sum(counts.values())
+    distribution = {pts: round((count / total) * 100, 2) for pts, count in sorted(counts.items())}
+
+    return {
+        'team': team_name,
+        'upcoming_matches': upcoming_matches,
+        'distribution': distribution,
+        'statistics': {
+            'avg_points': round(np.mean(results), 2),
+            'std_points': round(np.std(results), 2),
+            'min_points': min(results),
+            'max_points': max(results)
+        }
+    }
+
 # Test funkcije
 if __name__ == "__main__":
     # Test za jedan tim
@@ -163,3 +219,9 @@ if __name__ == "__main__":
     # Formatiranje za chart
     chart_data = format_distribution_for_chart(result)
     print(f"\nChart data ima {len(chart_data['chart_data'])} točaka")
+
+    team = "Zelengaj"
+    next3 = calculate_next_3_rounds_distribution(team, num_simulations=50000)
+    print(f"\nDistribucija bodova za sljedeća 3 kola ({team}):")
+    for pts, pct in next3['distribution'].items():
+        print(f"  {pts} bodova: {pct}%")

@@ -370,7 +370,67 @@ def create_visualizations(simulation_data: Dict[str, Dict[str, Any]]):
     plt.tight_layout()
     plt.show()
 
+def create_next_rounds_distribution_chart(distribution_data: Dict[str, Any]):
+    """
+    Prikazuje distribuciju mogućih bodova u sljedeća 3 kola za jedan tim 
+    (npr. rezultat iz calculate_next_3_rounds_distribution)
+    """
+    if not distribution_data or 'distribution' not in distribution_data:
+        print("Neispravan format distribucije podataka.")
+        return
 
+    team = distribution_data['team']
+    distribution = distribution_data.get('distribution', {})
+    # Ukloni 8 bodova ako postoji
+    distribution.pop(8, None)
+    stats = distribution_data.get('statistics', {})
+
+    # Filtriraj da se ne prikazuje 8 bodova
+    distribution = {k: v for k, v in distribution.items() if k != 8}
+
+    # Sortiraj bodove po veličini
+    points = list(distribution.keys())
+    percentages = list(distribution.values())
+
+    # Pretvori u DataFrame radi lakšeg crtanja
+    df = pd.DataFrame({
+        'Bodovi': points,
+        'Vjerojatnost (%)': percentages
+    }).sort_values('Bodovi')
+
+    # Kreiraj graf
+    fig, ax = plt.subplots(figsize=(10, 6))
+    bars = ax.bar(df['Bodovi'], df['Vjerojatnost (%)'], color='#2ca02c', edgecolor='darkgreen', alpha=0.8)
+
+    # Označi vrijednosti na vrhu stupaca
+    for bar in bars:
+        height = bar.get_height()
+        if height > 1:  # prikazuj samo ako > 1%
+            ax.text(bar.get_x() + bar.get_width() / 2, height + 0.3, f'{height:.1f}%', 
+                    ha='center', va='bottom', fontsize=10, weight='bold', color='#1e5631')
+
+    # Označi broj bodova ispod svakog stupca
+    ax.set_xticks(df['Bodovi'])
+    ax.set_xticklabels(df['Bodovi'], fontsize=12, weight='bold')
+
+    # Naslovi i opis osi
+    ax.set_title(f"Distribucija bodova za sljedeća 3 kola ({team})", fontsize=18, weight='bold', pad=20)
+    ax.set_xlabel("Ukupno bodova u sljedeća 3 kola", fontsize=14, weight='bold')
+    ax.set_ylabel("Vjerojatnost (%)", fontsize=14, weight='bold')
+    ax.grid(True, axis='y', alpha=0.3)
+    ax.set_facecolor('#f8fff8')
+
+    # Statistika (ispis ispod grafa)
+    avg = stats.get('avg_points', None)
+    if avg is not None:
+        text = f"Prosjek: {avg:.2f} | Raspon: {stats.get('min_points', '?')} - {stats.get('max_points', '?')}"
+        plt.figtext(0.5, -0.02, text, ha='center', fontsize=12, color='#333', weight='bold')
+
+    plt.tight_layout()
+    plt.show()
+
+from points import calculate_next_3_rounds_distribution
+from generateGraph import create_next_rounds_distribution_chart
 
 # MAIN EXECUTION
 if __name__ == "__main__":
@@ -403,6 +463,29 @@ if __name__ == "__main__":
         
         print("Creating Relegation League chart...")
         create_relegation_league_chart(raw_data)
+
+        print("\n=== DISTRIBUCIJA BODOVA (Zelengaj) ===")
+        distribution_data = {
+            "team": "Zelengaj",
+            "distribution": {
+                0: 1.5,
+                1: 4.81,
+                2: 5.06,
+                3: 11.72,
+                4: 20.29,
+                5: 8.97,
+                6: 20.27,
+                7: 17.09,
+                9: 10.3
+            },
+            "statistics": {
+                "avg_points": 5.01,
+                "min_points": 0,
+                "max_points": 9
+            }
+        }
+
+        create_next_rounds_distribution_chart(distribution_data)
         
         print("All charts created successfully!")
         
