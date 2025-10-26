@@ -17,7 +17,7 @@ current_table = {
 }
 
 # Učitaj Excel (preskače prvih 99 redova)
-df = pd.read_excel(r"C:\Users\filip\Downloads\ELORatin\elo-backend\result2425.xlsx", header=None, skiprows=99)
+df = pd.read_excel(r"result2425.xlsx", header=None, skiprows=99)
 
 df.columns = ["Domacin", "Gost", "Datum", "GolDomacin", "GolGost"]
 

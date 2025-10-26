@@ -91,7 +91,7 @@ if __name__ == '__main__':
         rating_dict = {}
 
     # Update Elo with new round file (adjust filename)
-    new_round_file = 'newround9.csv'  # Replace with actual round file
+    new_round_file = 'newround10.csv'  # Replace with actual round file
     rating_dict = update_elo_with_new_round(new_round_file, rating_dict)
     print("Updated Elo ratings with new round results:")
 

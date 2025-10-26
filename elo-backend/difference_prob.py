@@ -8,8 +8,8 @@ teams = [
     "Semovec", "Beretinec", "Drava", "Dubravka", "Sloboda", "Obres"
 ]
 
-old_probs = [99.4, 96.4, 57.9, 64.6, 83.4, 89.4, 22.2, 43.5, 35.0, 3.6, 3.9, 0.6]
-new_probs = [99.7, 97.8, 44.0, 49.9, 80.0, 94.8, 19.3, 54.7, 51.1, 1.8, 6.4, 0.4]
+old_probs = [100.0, 96.0, 73.1, 21.2, 64.1, 97.5, 11.5, 85.7, 41.2, 6.2, 2.3, 1.0]
+new_probs = [99.8, 98.7, 80.1, 16.2, 66.4, 99.5, 9.2, 77.7, 42.3, 3.8, 1.0, 5.3]
 
 # Izračun promjene
 changes = [new - old for new, old in zip(new_probs, old_probs)]
