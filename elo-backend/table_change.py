@@ -9,7 +9,7 @@ clubs_order = [
 ]
 
 results_per_round = []
-for i in range(1, 9):
+for i in range(1, 12):
     filename = f"newround{i}.csv"
     if os.path.exists(filename):
         df = pd.read_csv(filename, sep=';')
@@ -53,22 +53,23 @@ for rnd in range(len(results_per_round)):
 plt.figure(figsize=(14, 7))
 for club, pos_list in positions.items():
     if club == "Zelengaj":
-        plt.plot(range(1, 9), pos_list, marker='o', label=club, color='green', linewidth=6, markersize=16, zorder=2)
+        plt.plot(range(1, 12), pos_list, marker='o', label=club, color='green', linewidth=6, markersize=16, zorder=2)
     else:
-        plt.plot(range(1, 9), pos_list, marker='o', color='lightgray', linewidth=1.5, markersize=8, zorder=1)
+        plt.plot(range(1, 12), pos_list, marker='o', color='lightgray', linewidth=1.5, markersize=8, zorder=1)
 
 plt.gca().invert_yaxis()
-plt.xticks(range(1, 9))
+plt.xticks(range(1, 12))
 plt.xlabel('Kolo', fontsize=13)
 plt.ylabel('Pozicija', fontsize=13)
 plt.title('Praćenje promjena na tablici po klubovima')
 
 # DODAJEMO LEGENDU SA STRANE, sortirano po poziciji u zadnjem kolu:
 final_table = sorted([(pos_list[-1], club) for club, pos_list in positions.items()])
-for i, (final_pos, club) in enumerate(final_table, 1):
-    y = final_pos
-    plt.text(8.3, y, club, va='center', fontsize=13, color='green' if club == 'Zelengaj' else 'gray', fontweight='bold' if club == 'Zelengaj' else 'normal')
+for club, pos_list in positions.items():
+    x_pos = 11.5  # Slightly to the right of the last column
+    y_pos = pos_list[-1]
+    plt.text(x_pos, y_pos, club, va='center', ha='left', fontsize=13, color='green' if club == 'Zelengaj' else 'gray', fontweight='bold' if club == 'Zelengaj' else 'normal')
 
-plt.xlim(1, 9.7)
+plt.xlim(1, 12.7)
 plt.tight_layout()
 plt.show()
