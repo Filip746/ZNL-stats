@@ -136,39 +136,36 @@ def print_phase_table(title, points_dict, pos_prob):
 # Definicija podataka i simulacije
 
 initial_points = {
-    "Mladost SL": 26,
-    "Zadrugar": 25,
-    "Zelengaj": 21,
+    "Mladost SL": 30,
+    "Zadrugar": 28,
+    "Zelengaj": 27,
+    "Beretinec": 22,
     "Nova Ves": 19,
-    "Beretinec": 19,
-    "Mladost VT": 16,
-    "Semovec": 16,
+    "Semovec": 19,
+    "Dubravka": 17,
+    "Mladost VT": 17,
+    "Plitvica": 15,
     "Drava": 14,
-    "Dubravka": 13,
     "Sloboda": 12,
-    "Plitvica": 9,
-    "Obres": 9
+    "Obres": 10
 }
 
 teams = {
-    "Beretinec": 1449.665560703869,
-    "Drava": 1440.467274997978,
-    "Mladost SL": 1603.8706447338295,
-    "Mladost VT": 1445.2321665190002,
-    "Nova Ves": 1528.466265665591,
-    "Obres": 1428.3646976704374,
-    "Plitvica": 1522.2610155015325,
-    "Sloboda": 1382.20505692542,
-    "Zadrugar": 1610.7309350307182,
-    "Zelengaj": 1571.4266198961875,
-    "Dubravka": 1412.2183390508455,
-    "Semovec": 1403.070215527285
+    "Beretinec": 1454.8278865073946,
+    "Drava": 1449.7298476635615,
+    "Mladost SL": 1608.3321834812218,
+    "Mladost VT": 1430.802542867657,
+    "Nova Ves": 1504.6089000077482,
+    "Obres": 1411.5309999548047,
+    "Plitvica": 1542.2539659987629,
+    "Sloboda": 1369.1721475212782,
+    "Zadrugar": 1601.705626520519,
+    "Zelengaj": 1587.1976076404965,
+    "Dubravka": 1427.1824090944194,
+    "Semovec": 1410.6346749648299
 }
 
 fixtures = [
-("Mladost SL", "Beretinec"), ("Semovec", "Dubravka"), ("Mladost VT", "Obres"), ("Sloboda", "Plitvica"), ("Nova Ves", "Zelengaj"), ("Zadrugar", "Drava"),
-
-("Zelengaj", "Sloboda"), ("Plitvica", "Mladost VT"), ("Obres", "Semovec"), ("Dubravka", "Mladost SL"), ("Beretinec", "Zadrugar"), ("Drava", "Nova Ves"),
 ("Mladost SL", "Drava"), ("Plitvica", "Obres"), ("Beretinec", "Nova Ves"), ("Sloboda", "Zelengaj"), ("Mladost VT", "Dubravka"), ("Semovec", "Zadrugar"),
 ("Drava", "Beretinec"), ("Plitvica", "Semovec"), ("Zelengaj", "Mladost SL"), ("Dubravka", "Sloboda"), ("Zadrugar", "Mladost VT"), ("Nova Ves", "Obres"),
 
